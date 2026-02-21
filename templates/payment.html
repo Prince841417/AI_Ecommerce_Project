@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Payment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #dfe9f3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .payment-card {
+            width: 500px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        .payment-card h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .summary-box {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .summary-box p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+
+        .total {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
+            color: #222;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            margin: 5px;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .pay-btn {
+            background: #f37254;
+            color: white;
+        }
+
+        .pay-btn:hover {
+            background: #e35a3c;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="payment-card">
+
+    <h2>🔒 Secure Payment</h2>
+
+    <div class="summary-box">
+        <strong>Order Summary:</strong>
+
+        {% for item in items %}
+            <p>{{ item.name }} — ₹ {{ item.price }}</p>
+        {% endfor %}
+
+        <div class="total">
+            Total Amount: ₹ {{ total }}
+        </div>
+    </div>
+
+    <a href="/cart">
+        <button class="btn back-btn">← Back to Cart</button>
+    </a>
+
+    <button id="pay-btn" class="btn pay-btn">Pay Now</button>
+
+</div>
+
+<script>
+    var options = {
+        "key": "{{ key_id }}",
+        "amount": "{{ total * 100 }}",
+        "currency": "INR",
+        "name": "Prince Enterprises",
+        "description": "Secure Online Payment",
+        "handler": function (response){
+            window.location.href = "/payment_success";
+        },
+        "theme": {
+            "color": "#f37254"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+
+    document.getElementById("pay-btn").onclick = function(e){
+        rzp.open();
+        e.preventDefault();
+    }
+</script>
+
+</body>
+</html>

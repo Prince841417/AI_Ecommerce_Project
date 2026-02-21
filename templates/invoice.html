@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f6f9;
+            padding:40px;
+        }
+        .invoice-box{
+            background:white;
+            max-width:700px;
+            margin:auto;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);
+        }
+        h2{
+            margin-bottom:20px;
+        }
+        .row{
+            margin:10px 0;
+        }
+        .price{
+            font-size:20px;
+            font-weight:bold;
+            color:green;
+        }
+        .status{
+            color:green;
+            font-weight:bold;
+        }
+        .btn{
+            margin-top:20px;
+            display:inline-block;
+            padding:10px 20px;
+            background:#ff7a00;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="invoice-box">
+    <h2>Invoice</h2>
+
+    <div class="row"><strong>Order ID:</strong> {{ order.id }}</div>
+    <div class="row"><strong>Product:</strong> {{ order.product_name }}</div>
+    <div class="row price">₹ {{ order.price }}</div>
+    <div class="row"><strong>Date:</strong> {{ order.order_date }}</div>
+    <div class="row"><strong>Payment ID:</strong> {{ order.payment_id }}</div>
+    <div class="row status"><strong>Status:</strong> {{ order.status }}</div>
+
+    <a href="/orders" class="btn">Back to Orders</a>
+</div>
+
+</body>
+</html>

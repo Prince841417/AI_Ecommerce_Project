@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmartCart AI</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #0f1c2e;
+            padding: 15px 40px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            color: #f4b400;
+        }
+
+        .nav-links a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: #f4b400;
+        }
+
+        /* Search Bar */
+        .search-box {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .search-box input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .search-box button {
+            padding: 10px 20px;
+            background: #f4b400;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Category Title */
+        .category-title {
+            margin: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f1c2e;
+            border-left: 6px solid #f4b400;
+            padding-left: 10px;
+        }
+
+        /* Product Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+            padding: 0 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+        }   
+
+        .card img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+        }
+         
+        .card:hover img {
+            transform: scale(1.08);
+        }
+        .price {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: #f4b400;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #e0a800;
+        }
+
+        .details-btn {
+          background: #444;
+          color: white;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 5px;
+          margin-top: 8px;
+          cursor: pointer;
+       }
+
+       .details-btn:hover {
+           background: #222;
+        }
+
+        /* Recommended */
+        .recommended-title {
+            margin: 40px;
+            font-size: 22px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h2>SmartCart AI</h2>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/cart">Cart</a>
+        <a href="/orders">Orders</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<!-- Search -->
+<div class="search-box">
+    <form action="/search" method="GET">
+        <input type="text" name="query" placeholder="Search products...">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<!-- Recommended Section -->
+{% if recommended_products and recommended_products|length > 0 %}
+<div class="recommended-title">
+    🤖 Recommended For You
+</div>
+
+<div class="products">
+    {% for product in recommended_products %}
+    <div class="card">
+        <img src="{{ url_for('static', filename=product[3]) }}">
+        <h3>{{ product[1] }}</h3>
+        <div class="price">₹ {{ product[2] }}</div>
+        <a href="/add_to_cart/{{ product[0] }}">
+            <button class="btn">Add to Cart</button>
+        </a>
+        <a href="/product/{{ product[0] }}">
+             <button class="details-btn">View Details</button>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Category Wise Products -->
+
+{% for category in products|map(attribute=4)|unique %}
+
+<div class="category-title">
+    {{ category|capitalize }}
+</div>
+
+<div class="products">
+    {% for product in products %}
+        {% if product[4] == category %}
+        <div class="card">
+            <img src="{{ url_for('static', filename=product[3]) }}">
+            <h3>{{ product[1] }}</h3>
+            <div class="price">₹ {{ product[2] }}</div>
+            <a href="/add_to_cart/{{ product[0] }}">
+                <button class="btn">Add to Cart</button>
+            </a>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endfor %}
+
+</body>
+</html>

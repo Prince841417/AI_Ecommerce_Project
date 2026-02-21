@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - SmartCart AI</title>
+    <style>
+        body{
+            margin:0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg,#141e30,#243b55);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .auth-box{
+            background:white;
+            padding:40px;
+            width:350px;
+            border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+            text-align:center;
+        }
+
+        h2{
+            margin-bottom:25px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            border:1px solid #ccc;
+            font-size:15px;
+        }
+
+        input:focus{
+            border-color:#ff9900;
+            outline:none;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:#ff9900;
+            border:none;
+            border-radius:8px;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            margin-top:10px;
+        }
+
+        button:hover{
+            background:#e68a00;
+        }
+
+        .switch{
+            margin-top:15px;
+            font-size:14px;
+        }
+
+        .switch a{
+            color:#243b55;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="auth-box">
+    <h2>Create Account 🚀</h2>
+
+    <form method="POST">
+        <input type="text" name="username" placeholder="Choose Username" required>
+        <input type="password" name="password" placeholder="Create Password" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="switch">
+        Already have an account? 
+        <a href="/login">Login</a>
+    </div>
+</div>
+
+</body>
+</html>

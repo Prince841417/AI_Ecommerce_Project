@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ product[1] }} Details</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 600px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        img {
+            width: 300px;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        h2 {
+            margin: 20px 0 10px;
+        }
+
+        .price {
+            color: green;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: #f4b400;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #d99a00;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <img src="{{ url_for('static', filename=product[3]) }}">
+    <h2>{{ product[1] }}</h2>
+    <div class="price">₹ {{ product[2] }}</div>
+
+    <a href="/add_to_cart/{{ product[0] }}">
+        <button class="btn">Add to Cart</button>
+    </a>
+</div>
+
+</body>
+</html>

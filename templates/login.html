@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - SmartCart AI</title>
+    <style>
+        body{
+            margin:0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg,#1e3c72,#2a5298);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .auth-box{
+            background:white;
+            padding:40px;
+            width:350px;
+            border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+            text-align:center;
+        }
+
+        h2{
+            margin-bottom:25px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            border:1px solid #ccc;
+            font-size:15px;
+        }
+
+        input:focus{
+            border-color:#ff9900;
+            outline:none;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:#ff9900;
+            border:none;
+            border-radius:8px;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            margin-top:10px;
+        }
+
+        button:hover{
+            background:#e68a00;
+        }
+
+        .switch{
+            margin-top:15px;
+            font-size:14px;
+        }
+
+        .switch a{
+            color:#2a5298;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="auth-box">
+    <h2>Welcome Back 👋</h2>
+    <form method="POST" action="{{ url_for('login') }}">
+
+    <input type="text" 
+           name="username" 
+           placeholder="Enter Username" 
+           required>
+
+    <input type="password" 
+           name="password" 
+           placeholder="Enter Password" 
+           required>
+
+    <button type="submit">Login</button>
+
+    </form>
+    <div class="switch">
+        Don't have an account? 
+        <a href="/register">Register</a>
+    </div>
+</div>
+
+</body>
+</html>

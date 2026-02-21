@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+
+        .container {
+            width: 60%;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        .pay-btn {
+            width: 100%;
+            padding: 12px;
+            background: #f0c14b;
+            border: none;
+            margin-top: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .pay-btn:hover {
+            background: #ddb347;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Order Summary</h2>
+
+    {% for product in products %}
+    <div class="product">
+        <span>{{ product.name }}</span>
+        <span>₹ {{ product.price }}</span>
+    </div>
+    {% endfor %}
+
+    <div class="total">
+        <strong>Total: ₹ {{ total }}</strong>
+    </div>
+
+    <form action="/payment_success">
+        <button class="pay-btn">Pay Now</button>
+    </form>
+</div>
+
+</body>
+</html>
