@@ -582,6 +582,8 @@ def search_products():
     return render_template("base.html", products=products)
 
 # ================= run =================
+# Always initialize DB when app starts
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
