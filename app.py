@@ -87,7 +87,7 @@ def init_db():
             ("T-Shirt", 800, "mtshirt.jpg", "fashion"),
             ("Shoes", 2500, "shoes.jpg", "fashion"),
             ("Watch", 4000, "watch.jpg", "fashion"),
-            ("Jacket", 3500, "Jacket.jpg", "fashion"),
+            ("Jacket", 3500, "jacket.jpg", "fashion"),
             ("Sunglasses", 1200, "Sunglasses.jpg", "fashion"),
             ("Backpack", 2200, "backpack.jpg", "fashion"),
             ("Jeans", 1800, "jeansm.jpg", "fashion"),
@@ -582,8 +582,6 @@ def search_products():
     return render_template("base.html", products=products)
 
 # ================= run =================
-# Always initialize DB when app starts
-init_db()
-
 if __name__ == "__main__":
+    init_db()
     app.run(debug=True)
