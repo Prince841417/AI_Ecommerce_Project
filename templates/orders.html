@@ -52,7 +52,7 @@
             color: white;
         }
 
-        .view { background: #2196F3; }
+        .continue { background: #2196F3; }
         .invoice { background: #4CAF50; }
         .cancel { background: #f44336; }
 
@@ -91,17 +91,22 @@
             {% endif %}
         </p>
     </div>
-          <div class="actions">
+     <div class="actions">
 
-    <a href="#" class="view">View</a>
-     <a href="{{ url_for('download_invoice', order_id=order.id) }}" class="view">
-           Download PDF
-     </a>
+    <a href="{{ url_for('home') }}" class="continue">
+        Continue Shopping
+    </a>
+
+    <a href="{{ url_for('download_invoice', order_id=order['id']) }}" 
+       class="invoice">
+        Download PDF
+    </a>
+
     {% if order['status'] != "Cancelled" %}
     <a href="{{ url_for('cancel_order', order_id=order['id']) }}"
        onclick="return confirm('Cancel this order?')"
        class="cancel">
-       Cancel
+        Cancel
     </a>
     {% endif %}
 

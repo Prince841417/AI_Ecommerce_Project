@@ -164,7 +164,7 @@ def home():
         products=products,
         recommended_products=recommended_products
     )
-
+   #============ Register=======================
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "POST":
@@ -467,24 +467,6 @@ def cancel_order(order_id):
     conn.close()
 
     return redirect(url_for("orders"))
-# ================= search =================
-@app.route('/search')
-def search():
-    query = request.args.get('query')
-
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-
-    # Search by product name
-    c.execute("SELECT * FROM products WHERE name LIKE ?", ('%' + query + '%',))
-    products = c.fetchall()
-
-    conn.close()
-
-    # Recommended blank rakho search page me
-    return render_template("home.html",
-                           products=products,
-                           recommended_products=[])
 
 # ================= payment =================
 @app.route("/payment")
@@ -568,6 +550,36 @@ def product_details(id):
     product = c.fetchone()
 
     return render_template("product_details.html", product=product)
+
+###=========search=================
+@app.route("/search", methods=["GET"])
+def search_products():
+
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    search = request.args.get("search")
+
+    if search:
+        query = """
+            SELECT * FROM products
+            WHERE name LIKE ?
+            OR category LIKE ?
+            OR description LIKE ?
+        """
+        cursor.execute(query, (
+            f"%{search}%",
+            f"%{search}%",
+            f"%{search}%"
+        ))
+    else:
+        cursor.execute("SELECT * FROM products")
+
+    products = cursor.fetchall()
+    conn.close()
+
+    return render_template("base.html", products=products)
 
 # ================= run =================
 if __name__ == "__main__":
