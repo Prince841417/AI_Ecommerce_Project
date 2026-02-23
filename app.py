@@ -76,13 +76,12 @@ def init_db():
 
             ("Laptop", 55000, "laptop.jpg", "electronics"),
             ("SmartPhone", 20000, "phone.jpg", "electronics"),
-            ("Headphones", 3000, "headphones.jpg", "electronics"),
-            ("Keyboard", 53000, "keyboard.jpg", "electronics"),
+            ("Headphones", 3000, "head.jpg", "electronics"),
+            ("Keyboard", 53000, "t2.jpg", "electronics"),
             ("Camera", 45000, "camera.jpg", "electronics"),
             ("Tablet", 25000, "Tablet.jpg", "electronics"),
             ("Smartwatch", 15000, "Smartwatch.jpg", "electronics"),
             ("Speaker", 3500, "Speaker.jpg", "electronics"),
-
                 ### category: fashionsssss
             ("T-Shirt", 800, "mtshirt.jpg", "fashion"),
             ("Shoes", 2500, "shoes.jpg", "fashion"),
