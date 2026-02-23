@@ -1,0 +1,12 @@
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "gunicorn app:app"
+  },
+  "nixpacks": {
+    "providers": ["python"],
+    "pythonVersion": "3.11"
+  }
+}
