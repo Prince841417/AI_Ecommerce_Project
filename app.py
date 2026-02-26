@@ -565,12 +565,10 @@ def search_products():
             SELECT * FROM products
             WHERE name LIKE ?
             OR category LIKE ?
-            OR description LIKE ?
         """
         cursor.execute(query, (
             f"%{search}%",
             f"%{search}%",
-            f"%{search}%"
         ))
     else:
         cursor.execute("SELECT * FROM products")
@@ -578,7 +576,7 @@ def search_products():
     products = cursor.fetchall()
     conn.close()
 
-    return render_template("base.html", products=products)
+    return render_template("index.html", products=products)
 
 # ================= run =================
 if __name__ == "__main__":
