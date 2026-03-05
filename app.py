@@ -92,7 +92,7 @@ def init_db():
             ("Bluetooth Speaker", 3500, "Speaker.jpg", "electronics"),
             ("Tablet", 25000, "Tablet.jpg", "electronics"),
             ("DSLR Camera", 45000, "camera.jpg", "electronics"),
-            ("Gaming Console", 4000, "Gaming Console.jpg", "electronics"),
+            ("Gaming Console", 4000, "Gaming console.jpg", "electronics"),
             ("Smart TV", 45000, "Smart Tv.jpg", "electronics"),
             ("Keyboard", 400, "t2.jpg", "electronics"),
 
