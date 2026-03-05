@@ -1,0 +1,27 @@
+{% if recommended_products %}
+
+<h2 class="section-title">🤖 AI Recommended For You</h2>
+
+<div class="products">
+
+{% for product in recommended_products %}
+
+<div class="card">
+
+<img src="{{ url_for('static', filename=product['image']) }}">
+
+<h3>{{ product['name'] }}</h3>
+
+<p class="price">₹ {{ product['price'] }}</p>
+
+<a href="/add_to_cart/{{ product['id'] }}">
+<button class="btn">Add to Cart</button>
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}

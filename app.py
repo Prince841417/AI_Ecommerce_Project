@@ -2,10 +2,21 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import random
 import razorpay
+from ai_engine import hybrid_recommendation
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
 DATABASE = "database.db"
+
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, "database.db")
+
+def get_db():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # ================= Razorpay key ============
 
@@ -76,21 +87,27 @@ def init_db():
 
             ("Laptop", 55000, "laptop.jpg", "electronics"),
             ("SmartPhone", 20000, "phone.jpg", "electronics"),
-            ("Keyboard", 53000, "t2.jpg", "electronics"),
-            ("Camera", 45000, "camera.jpg", "electronics"),
-            ("Tablet", 25000, "Tablet.jpg", "electronics"),
             ("Smartwatch", 15000, "Smartwatch.jpg", "electronics"),
-            ("Speaker", 3500, "Speaker.jpg", "electronics"),
+            ("Headphone", 4500, "head.jpg", "electronics"),
+            ("Bluetooth Speaker", 3500, "Speaker.jpg", "electronics"),
+            ("Tablet", 25000, "Tablet.jpg", "electronics"),
+            ("DSLR Camera", 45000, "camera.jpg", "electronics"),
+            ("Gaming Console", 4000, "Gaming Console.jpg", "electronics"),
+            ("Smart TV", 45000, "Smart Tv.jpg", "electronics"),
+            ("Keyboard", 400, "t2.jpg", "electronics"),
 
                 ### category: fashionsssss
             ("T-Shirt", 800, "mtshirt.jpg", "fashion"),
-            ("Shoes", 2500, "shoes.jpg", "fashion"),
-            ("Watch", 4000, "t5.jpg", "fashion"),
-            ("Jacket", 3500, "t3.jpg", "fashion"),
-            ("Sunglasses", 1200, "Sunglasses.jpg", "fashion"),
-            ("Backpack", 2200, "backpack.jpg", "fashion"),
             ("Jeans", 1800, "t4.jpg", "fashion"),
-            ("Kurti", 1500, "Kurti.jpg", "fashion"),
+            ("Sneakers", 2500, "Sneakers.jpg", "fashion"),
+            ("Jacket", 350, "t3.jpg", "fashion"),
+            ("Hoodie", 500, "Hoodie.jpg", "fashion"),
+            ("Kurta", 300, "Kurta.jpg", "fashion"),
+            ("Saree", 5000, "Saree.jpg", "fashion"),
+            ("Formal Shirt", 305, "Formal Shirt.jpg", "fashion"),
+            ("Leather Belt", 250, "Leather Belt.jpg", "fashion"),
+            ("Sunglasses", 1200, "Sunglasses.jpg", "fashion"),
+            
 
 
             #### category: home and kitchen
@@ -106,11 +123,14 @@ def init_db():
             ("Makeup Kit", 2000, "makeup.jpg", "beauty"),
 
               ### category: sports and fitness
+            ("Cricket Bat", 3500, "bat.jpg", "sports"),
             ("Football", 2500, "bootball.jpg", "sports"),
             ("Yoga Mat", 1200, "yoga.jpg", "sports"),   
-            ("Criket Bat", 3500, "bat.jpg", "sports"),
-            ("Badminton Racket", 4000, "badm.jpg", "sports")
-
+            ("Tennis Ball", 1000, "Tennis Ball.jpg", "sports"), 
+            ("Basketball", 1100, "Basketball.jpg", "sports"),  
+            ("Skipping Rope", 1500, "Skipping Rope.jpg", "sports"),   
+            ("Cycling Helmet", 1800, "Cycling Helmet.jpg", "sports"),
+            ("Fitness Band", 2000, "Fitness Band.jpg", "sports"),         
         ]
 
         c.executemany("INSERT INTO products (name,price,image,category) VALUES (?,?,?,?)", products)
@@ -121,68 +141,77 @@ def init_db():
 init_db()
 
 # ================= HOME =================
-@app.route('/')
+@app.route("/")
 def home():
 
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
 
-    # 1️⃣ All products fetch
-    c.execute("SELECT * FROM products")
-    products = c.fetchall()
+    # Get all products
+    cur.execute("SELECT * FROM products")
+    products = cur.fetchall()
 
-    # ==============================
-    # 2️⃣ 👇 YAHI HAI RECOMMENDED CODE
-    # ==============================
+    # Category wise grouping
+    category_products = {}
+
+    for p in products:
+        category = p["category"]
+
+        if category not in category_products:
+            category_products[category] = []
+
+        category_products[category].append(p)
 
     recommended_products = []
 
-    if 'cart' in session and session['cart']:
+    if "cart" in session and session["cart"]:
 
-        # last added product id
-        last_product_id = session['cart'][-1]
+        ids = tuple(session["cart"])
 
-        # us product ki category nikalna
-        c.execute("SELECT category FROM products WHERE id=?", (last_product_id,))
-        category = c.fetchone()
+        query = "SELECT * FROM products WHERE id IN ({})".format(
+            ",".join(["?"] * len(ids))
+        )
 
-        if category:
-            # same category ke dusre products
-            c.execute("SELECT * FROM products WHERE category=? AND id!=?",
-                      (category[0], last_product_id))
-            recommended_products = c.fetchall()
+        cur.execute(query, ids)
 
-    # ==============================
-    # 👆 YAHI TAK RECOMMENDED LOGIC
-    # ==============================
+        cart_products = cur.fetchall()
 
-    conn.close()
+        recommended_products = hybrid_recommendation(cart_products)
 
     return render_template(
         "home.html",
-        products=products,
+        category_products=category_products,
         recommended_products=recommended_products
     )
    #============ Register=======================
-@app.route("/register", methods=["GET","POST"])
+@app.route('/register', methods=['GET','POST'])
 def register():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+
+    if request.method == 'POST':
+
+        username = request.form['username']
+        password = request.form['password']
 
         conn = sqlite3.connect(DATABASE)
         c = conn.cursor()
-        try:
-            c.execute("INSERT INTO users (username,password) VALUES (?,?)", (username,password))
-            conn.commit()
-        except:
-            return "Username already exists"
 
+        # check user exists
+        c.execute("SELECT * FROM users WHERE username=?", (username,))
+        user = c.fetchone()
+
+        if user:
+            return render_template("register.html", error="Username already exists")
+
+        c.execute("INSERT INTO users (username,password) VALUES (?,?)",
+                  (username,password))
+
+        conn.commit()
         conn.close()
-        return redirect(url_for("login"))
+
+        return redirect('/login')
 
     return render_template("register.html")
-
 # ================= LOGIN =================
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -204,12 +233,104 @@ def login():
 
     return render_template("login.html")
 
+
 # ================= LOGOUT =================
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
+
+# ================= dashboard =================
+@app.route("/dashboard")
+def dashboard():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+
+    # Total Orders
+    c.execute("SELECT COUNT(*) FROM orders WHERE user_id=?", (session["user_id"],))
+    total_orders = c.fetchone()[0]
+
+    # Total Spending
+    c.execute("SELECT SUM(price) FROM orders WHERE user_id=?", (session["user_id"],))
+    result = c.fetchone()[0]
+    total_spending = result if result else 0
+
+    # Cart Activity
+    c.execute("SELECT COUNT(*) FROM cart WHERE user_id=?", (session["user_id"],))
+    cart_activity = c.fetchone()[0]
+
+    return render_template(
+        "dashboard.html",
+        user=session["username"],   # IMPORTANT LINE
+        total_orders=total_orders,
+        total_spending=total_spending,
+    )
+
+###==============chartbot==============================
+@app.route("/chatbot", methods=["POST"])
+def chatbot():
+
+    data = request.get_json()
+    message = data["message"].lower()
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    # greeting
+    if "hi" in message or "hello" in message:
+        reply = "Hello 👋 I am SmartCart AI assistant. Ask me to recommend products."
+
+    # electronics
+    elif "laptop" in message or "electronics" in message or "phone" in message:
+
+        c.execute("SELECT name, price FROM products WHERE category='electronics' LIMIT 3")
+        products = c.fetchall()
+
+        reply = "Recommended Electronics:\n"
+
+        for p in products:
+            reply += f"• {p[0]} - ₹{p[1]}\n"
+
+    # fashion
+    elif "fashion" in message or "clothes" in message or "shoes" in message:
+
+        c.execute("SELECT name, price FROM products WHERE category='fashion' LIMIT 3")
+        products = c.fetchall()
+
+        reply = "Recommended Fashion Products:\n"
+
+        for p in products:
+            reply += f"• {p[0]} - ₹{p[1]}\n"
+
+    # trending products
+    elif "trending" in message or "popular" in message:
+
+        c.execute("SELECT name, price FROM products LIMIT 3")
+        products = c.fetchall()
+
+        reply = "Trending Products:\n"
+
+        for p in products:
+            reply += f"• {p[0]} - ₹{p[1]}\n"
+
+    # order help
+    elif "order" in message:
+
+        reply = "You can check your order history in the Orders section."
+
+    else:
+
+        reply = "You can ask:\n• recommend laptop\n• show fashion\n• trending products"
+
+    conn.close()
+
+    return {"reply": reply}
 
 # ================= ADD TO CART =================
 @app.route("/add_to_cart/<int:product_id>")
@@ -307,17 +428,22 @@ def checkout():
 @app.route("/orders")
 def orders():
 
-    conn = sqlite3.connect("database.db")
+    if "user_id" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
 
-    c.execute("SELECT * FROM orders ORDER BY id DESC")
+    # Only show orders of logged in user
+    c.execute(
+        "SELECT * FROM orders WHERE user_id = ?",
+        (session["user_id"],)
+    )
+
     orders = c.fetchall()
 
-    conn.close()
-
     return render_template("orders.html", orders=orders)
-
 # ================= INVOICE =================
 @app.route("/invoice/<int:order_id>")
 def invoice(order_id):
