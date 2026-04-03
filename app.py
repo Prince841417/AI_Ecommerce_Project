@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import random
-import razorpay
+import razorpay 
 from ai_engine import hybrid_recommendation
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -227,8 +227,8 @@ def login():
         conn.close()
 
         if user:
-            session['user_id'] = user[0]   # ✅ IMPORTANT
-            session['username'] = user[1]  # optional
+            session['user_id'] = user[0]   
+            session['username'] = user[1]  
             return redirect(url_for('home'))
 
     return render_template("login.html")
@@ -267,7 +267,7 @@ def dashboard():
 
     return render_template(
         "dashboard.html",
-        user=session["username"],   # IMPORTANT LINE
+        user=session["username"],   
         total_orders=total_orders,
         total_spending=total_spending,
     )
