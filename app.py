@@ -83,7 +83,7 @@ def init_db():
     c.execute("SELECT COUNT(*) FROM products")
     if c.fetchone()[0] == 0:
         products = [
-                       ### category: electronics
+                       ### category: Electronics
 
             ("Laptop", 55000, "laptop.jpg", "Electronics"),
             ("SmartPhone", 20000, "phone.jpg", "Electronics"),
@@ -96,7 +96,7 @@ def init_db():
             ("Smart TV", 45000, "Smart Tv.jpg", "Electronics"),
             ("Keyboard", 400, "t2.jpg", "Electronics"),
 
-                ### category: fashionsssss
+                ### category: Fashionsssss
             ("T-Shirt", 800, "mtshirt.jpg", "Fashion"),
             ("Jeans", 1800, "t4.jpg", "Fashion"),
             ("Sneakers", 2500, "Sneakers.jpg", "Fashion"),
@@ -110,7 +110,7 @@ def init_db():
             
 
 
-            #### category: home and kitchen
+            #### category: Home and Kitchen
             ("Microwave Oven", 3000, "miccc.jpg", " Home & Kitchen"),
             ("Refrigerator", 25000, "Refrigertor.jpg", " Home & Kitchen"),
             ("Electric Kettle", 1500, "kettle.jpg", " Home & Kitchen"),
@@ -123,7 +123,7 @@ def init_db():
             ("Makeup Kit", 2000, "makeup.jpg", "Beauty & Personal Care"),
             ("Perfume Luxury", 2000, "Perfume.jpg", "Beauty & Personal Care"),
 
-              ### category: sports and fitness
+              ### category: Sports and Fitness
             ("Cricket Bat", 3500, "bat.jpg", "Sports"),
             ("Football", 2500, "bootball.jpg", "Sports"),
             ("Yoga Mat", 1200, "yoga.jpg", "Sports"),   
