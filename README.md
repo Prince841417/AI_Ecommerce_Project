@@ -7,7 +7,7 @@ Enterprise-ready full-stack web application with AI-based recommendation and sec
 ## 🔗 Live Links
 
 **Production URL:**  
-web-production-57758.up.railway.app
+https://aiecommerceproject-production.up.railway.app/
 
 **GitHub Repository:**  
 https://github.com/Prince841417/AI_Ecommerce_Project  
