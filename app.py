@@ -115,6 +115,12 @@ def init_db():
             ("Refrigerator", 25000, "Refrigertor.jpg", " Home & Kitchen"),
             ("Electric Kettle", 1500, "kettle.jpg", " Home & Kitchen"),
             ("Mixer Grinder", 1200, "mixer.jpg", " Home & Kitchen"),
+            ("Coffee Maker", 1500, "coffee.jpg", " Home & Kitchen"),
+            ("Gas Stove", 5000, "gas.jpg", " Home & Kitchen"),
+            ("Lunch Box", 120, "Lunch.jpg", " Home & Kitchen"),
+            ("Water Purifier", 2500, "water.jpg", " Home & Kitchen"),
+            ("Pressure Cooker", 3000, "pre.jpg", " Home & Kitchen"),
+             ("Dish Drying Rack", 4500, "dish.jpg", " Home & Kitchen"),
              
              ### category: Beauty and Personal Care
             ("Lipstick", 500, "lapstick.jpg", "Beauty & Personal Care"),
@@ -124,14 +130,30 @@ def init_db():
             ("Perfume Luxury", 2000, "Perfume.jpg", "Beauty & Personal Care"),
 
               ### category: Sports and Fitness
-            ("Cricket Bat", 3500, "bat.jpg", "Sports"),
-            ("Football", 2500, "bootball.jpg", "Sports"),
-            ("Yoga Mat", 1200, "yoga.jpg", "Sports"),   
-            ("Tennis Ball", 1000, "Tennis Ball.jpg", "Sports"), 
-            ("Basketball", 1100, "Basketball.jpg", "Sports"),  
-            ("Skipping Rope", 1500, "Skipping Rope.jpg", "Sports"),   
-            ("Cycling Helmet", 1800, "Cycling Helmet.jpg", "Sports"),
-            ("Fitness Band", 2000, "Fitness Band.jpg", "Sports"),         
+            ("Cricket Bat", 3500, "bat.jpg", "Sports & Fitness"),
+            ("Football", 2500, "bootball.jpg", "Sports & Fitness"),
+            ("Yoga Mat", 1200, "yoga.jpg", "Sports & Fitness"),   
+            ("Tennis Ball", 1000, "Tennis Ball.jpg", "Sports & Fitness"), 
+            ("Basketball", 1100, "Basketball.jpg", "Sports & Fitness"),  
+            ("Skipping Rope", 1500, "Skipping Rope.jpg", "Sports & Fitness"),   
+            ("Cycling Helmet", 1800, "Cycling Helmet.jpg", "Sports & Fitness"),
+            ("Fitness Band", 2000, "Fitness Band.jpg", "Sports & Fitness"),    
+            ("Dumbbel Set", 5000, "dum.jpg", "Sports & Fitness"),  
+            ("Gym Bag", 1000, "gym.jpg", "Sports & Fitness"),  
+            
+            ## category : Food and Heathcare
+            ("Basmati Rice", 500, "basmati.jpg", "Food & Heathcare"),
+            ("Honey", 800, "honey.jpg", "Food & Heathcare"),
+            ("Dry Fruits Mix", 600, "fruits.jpg", "Food & Heathcare"),
+            ("Peanut Butter", 400, "peanut.jpg", "Food & Heathcare"),
+            ("First Aid Kit", 500, "fir.jpg", "Food & Heathcare"),
+            ("Vitamin C Tablets", 200, "vitamin.jpg", "Food & Heathcare"),
+            ("Digital Thermometer", 500, "ther.jpg", "Food & Heathcare"),
+            ("Blood Pressure Monitor", 900, "bl.jpg", "Food & Heathcare"),
+            ("Sanitary Pads", 50, "pra.jpg", "Food & Heathcare"),
+            ("Glucose Powder", 340, "g.jpg", "Food & Heathcare"),
+
+           
         ]
 
         c.executemany("INSERT INTO products (name,price,image,category) VALUES (?,?,?,?)", products)
