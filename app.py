@@ -139,7 +139,7 @@ def init_db():
             ("Cycling Helmet", 1800, "Cycling Helmet.jpg", "Sports & Fitness"),
             ("Fitness Band", 2000, "Fitness Band.jpg", "Sports & Fitness"),    
             ("Dumbbel Set", 5000, "dum.jpg", "Sports & Fitness"),  
-            ("Gym Bag", 1000, "gym.jpg", "Sports & Fitness"),  
+            ("Gym Bag", 1000, "gym.jpg", "Sports & Fitness"), 
             
             ## category : Food and Heathcare
             ("Basmati Rice", 500, "basmati.jpg", "Food & Heathcare"),
