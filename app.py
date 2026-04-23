@@ -117,7 +117,7 @@ def init_db():
             ("Mixer Grinder", 1200, "mixer.jpg", " Home & Kitchen"),
             ("Coffee Maker", 1500, "coffee.jpg", " Home & Kitchen"),
             ("Gas Stove", 5000, "gas.jpg", " Home & Kitchen"),
-            ("Lunch Box", 120, "Lunch.jpg", " Home & Kitchen"),
+            ("Lunch Box", 120, "lunch.jpg", " Home & Kitchen"),
             ("Water Purifier", 2500, "water.jpg", " Home & Kitchen"),
             ("Pressure Cooker", 3000, "pre.jpg", " Home & Kitchen"),
              ("Dish Drying Rack", 4500, "dish.jpg", " Home & Kitchen"),
